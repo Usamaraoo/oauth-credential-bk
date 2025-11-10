@@ -40,4 +40,19 @@ export const getGoogleUser = async (code: string) => {
   return response.data;
 };
 
+export const authenticateGoogleUser = async (email: string, name: string) => {
+  // Upsert user in DB
+  const user = await prisma.user.upsert({
+    where: { email },
+    update: { name },
+    create: {
+      name,
+      email,
+      provider: "Google"
+    },
+  });
+  return user
+};
+
+
 
